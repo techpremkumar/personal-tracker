@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PREM | Daily Tracker AI Agent</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="logo">
+                <div class="logo-icon">P</div>
+
+                <div>
+                    <h2>PREM</h2>
+                    <span>Daily Tracker AI</span>
+                </div>
+            </div>
+
+            <nav>
+
+                <a class="active">
+                    <span>📊</span>
+                    Dashboard
+                </a>
+
+                <a>
+                    <span>📚</span>
+                    Study
+                </a>
+
+                <a>
+                    <span>💰</span>
+                    Expenses
+                </a>
+
+                <a>
+                    <span>✅</span>
+                    Tasks
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <div class="ai-status">
+                    <span class="status-dot"></span>
+
+                    <div>
+                        <strong>AI Agent Online</strong>
+                        <small>Tracking your day</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN -->
+        <main class="main">
+
+            <!-- HEADER -->
+            <header class="header">
+
+                <div>
+                    <p class="welcome">WELCOME BACK, PREM 👋</p>
+
+                    <h1>Your Daily Command Center</h1>
+
+                    <p class="subtitle">
+                        Track your study, expenses and tasks with your AI agent.
+                    </p>
+                </div>
+
+                <button class="refresh-btn" onclick="loadSummary()">
+                    ↻ Refresh
+                </button>
+
+            </header>
+
+
+            <!-- SUMMARY CARDS -->
+            <section class="stats">
+
+                <div class="stat-card study">
+
+                    <div class="stat-icon">📚</div>
+
+                    <div>
+                        <span>Study Hours</span>
+                        <h2 id="studyHours">0</h2>
+                        <small>Today's learning</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card expense">
+
+                    <div class="stat-icon">₹</div>
+
+                    <div>
+                        <span>Expenses</span>
+                        <h2 id="expenses">₹0</h2>
+                        <small>Today's spending</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card pending">
+
+                    <div class="stat-icon">⏳</div>
+
+                    <div>
+                        <span>Pending Tasks</span>
+                        <h2 id="pendingTasks">0</h2>
+                        <small>Tasks remaining</small>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card completed">
+
+                    <div class="stat-icon">✓</div>
+
+                    <div>
+                        <span>Completed</span>
+                        <h2 id="completedTasks">0</h2>
+                        <small>Tasks completed</small>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- CONTENT -->
+            <section class="content-grid">
+
+                <!-- AI CHAT -->
+                <div class="chat-card">
+
+                    <div class="card-header">
+
+                        <div class="agent-title">
+
+                            <div class="agent-avatar">
+                                🤖
+                            </div>
+
+                            <div>
+                                <h2>PREM AI Agent</h2>
+
+                                <p>
+                                    Your personal daily assistant
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <span class="online">
+                            ● Online
+                        </span>
+
+                    </div>
+
+
+                    <div class="chat-box" id="chatBox">
+
+                        <div class="message agent-message">
+
+                            <div class="message-avatar">
+                                🤖
+                            </div>
+
+                            <div class="bubble">
+
+                                <strong>PREM AI</strong>
+
+                                <p>
+                                    Hey Prem! 👋 I'm ready to track your day.
+                                    Tell me what you studied, spent, or completed.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUICK ACTIONS -->
+                    <div class="quick-actions">
+
+                        <button onclick="quickMessage('Show me my tasks')">
+                            📋 My Tasks
+                        </button>
+
+                        <button onclick="quickMessage('Give me today summary')">
+                            📊 Summary
+                        </button>
+
+                        <button onclick="quickMessage('What did I study today?')">
+                            📚 Study
+                        </button>
+
+                        <button onclick="quickMessage('Show my expenses today')">
+                            💰 Expenses
+                        </button>
+
+                    </div>
+
+
+                    <!-- INPUT -->
+                    <div class="chat-input">
+
+                        <input
+                            type="text"
+                            id="messageInput"
+                            placeholder="Tell PREM AI what you did today..."
+                            onkeydown="handleEnter(event)"
+                        >
+
+                        <button onclick="sendMessage()">
+                            ➤
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT PANEL -->
+                <div class="right-panel">
+
+                    <!-- TODAY -->
+                    <div class="today-card">
+
+                        <div class="card-title">
+
+                            <div>
+                                <span>YOUR DAY</span>
+                                <h2>Daily Progress</h2>
+                            </div>
+
+                            <div class="calendar">
+                                📅
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-section">
+
+                            <div class="progress-info">
+
+                                <span>Daily Activity</span>
+
+                                <strong id="progressText">
+                                    0%
+                                </strong>
+
+                            </div>
+
+                            <div class="progress-bar">
+
+                                <div
+                                    class="progress"
+                                    id="progressBar">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="mini-stats">
+
+                            <div>
+                                <strong id="miniStudy">
+                                    0h
+                                </strong>
+
+                                <span>Study</span>
+                            </div>
+
+                            <div>
+                                <strong id="miniTasks">
+                                    0
+                                </strong>
+
+                                <span>Tasks</span>
+                            </div>
+
+                            <div>
+                                <strong id="miniExpense">
+                                    ₹0
+                                </strong>
+
+                                <span>Spent</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- COMMANDS -->
+                    <div class="commands-card">
+
+                        <h3>Try saying</h3>
+
+                        <div class="command">
+                            <span>📚</span>
+                            "I studied Java for 2 hours"
+                        </div>
+
+                        <div class="command">
+                            <span>💰</span>
+                            "I spent 200 rupees for lunch"
+                        </div>
+
+                        <div class="command">
+                            <span>✅</span>
+                            "Add a task to learn Spring Boot"
+                        </div>
+
+                        <div class="command">
+                            <span>📋</span>
+                            "Show me my tasks"
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer>
+
+                <span>
+                    PREM Daily Tracker AI
+                </span>
+
+                <span>
+                    Built with Java • Spring Boot • MySQL • AI
+                </span>
+
+            </footer>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
